@@ -1,19 +1,18 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, POST");
-header("Content-Type: application/json; charset=UTF-8");
+// Database connection using environment variables
+$servername = getenv('DB_HOST');
+$username   = getenv('DB_USER');
+$password   = getenv('DB_PASS');
+$dbname     = getenv('DB_NAME');
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "solooo";
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-$conn = new mysqli($servername, $username, $password, $database);
-
+// Check connection
 if ($conn->connect_error) {
     http_response_code(500);
     echo json_encode(["error" => "Database connection failed"]);
-    exit;
+    exit();
 }
-?>
+
+// Set UTF-8
+mysqli_set_charset($conn, "utf8");
